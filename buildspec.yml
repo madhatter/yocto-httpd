@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    IMAGE_TAG: "latest"
+
+phases:
+  pre_build:
+    commands:
+      - echo "Pulling sources from github"
+      - git clone https://github.com/felixb/yocto-httpd.git
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Testing the shit out of this thing
+      - go test
+      - echo Building go go go
+      - go build yhttpd.go
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Moving executable to target dir
+      - mkdir target
+      - cp -R yhttpd target
+
+artifacts:
+  files:
+    - 'target/**/*'
+  discard-paths: yes
+
